@@ -143,7 +143,7 @@ I created a new column indicating the missingness status of `rating` and shuffle
 
 Here is the empirical distribution of the test statistic used in one of your permutation tests, along with the observed statistic:
 
-<iframe src="assets/missing_one.html" width=800 height=600 frameborder=0></iframe>
+<iframe src="assets/missing_one.html" width=800 height=600 frameborder=0 ></iframe>
 
 The p-value we calculated from this permutation test is 0.109. If we use a significance level of 5%, p-value of 0.109 is greater than 0.05. We fail to reject the null hypothesis that the distribution of the 'minutes' when 'rating' is missing is the same as the distribution of the 'minutes' when 'rating' is not missing. Based on this result, we can conclude that the missingness of rating is MCAR.
 
@@ -248,6 +248,6 @@ Alternative Hypothesis: Our model is unfair. Its weighted f1 score for high prot
 
 For test statsitics, I am using difference in F1-score (low protein minus high protein). Our signficance level is 5%.
 
-<iframe src="assets/fairness.html" width=800 height=600 frameborder=0></iframe>
+<iframe src="assets/fairness.html" width=800 height=600 frameborder=0 display=block></iframe>
 
 The p-value of this permutation test is 0.0. Since the p-value is 0.0, less than our significance level 5%, we reject the null hypothesis. It seems like the difference in weighted f1 score across the two groups is significant.
