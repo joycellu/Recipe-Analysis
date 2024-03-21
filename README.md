@@ -101,12 +101,7 @@ I noticed that it has a very imbalanced situation, where most of data are of rat
 
 Here is a scatter plot that shows the relationship between `protein (PDV)` and `n_steps`.
 
-<iframe
-  src="assets/protein_vs_nstep.html"
-  width=800
-  height=600
-  frameborder=0
-></iframe>
+<iframe src="assets/protein_vs_nstep.html" width=800 height=600 frameborder=0></iframe>
 
 This graph shows that there are more data points clustered around lower n_steps, and that data points with higher protein (PDV) tend to have lower n_steps. his plot suggests that most recipes have lower number of steps, and protein (PDV) values don't seem to have an obvious correlation with the number of steps in recipe.
 
