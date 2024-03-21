@@ -182,8 +182,6 @@ The p-value of this permutation test is 0.0. Since p-value 0.0 is less than the 
 
 ## Framing a Prediction Problem
 
-Note: Make sure to justify what information you would know at the “time of prediction” and to only train your model using those features.
-
 After gaining some understanding on protein in recipe, I will move on to learning about ratings in recipe. Specifically, I will be performing a prediction task on `rating`.
 
 My prediction problem is predicting ratings of recipe, and it will be a multiclass classification (since there are five ratings 1, 2, 3, 4, 5) using the random forest classifier.
