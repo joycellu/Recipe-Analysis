@@ -155,7 +155,7 @@ I created a new column indicating the missingness status of `rating` and shuffle
 
 Here is the empirical distribution of the test statistic used in one of your permutation tests, along with the observed statistic:
 
-<iframe src="assets/missing_two.html" width=800 height=600 frameborder=0></iframe>
+<iframe src="assets/missingtwo.html" width=800 height=600 frameborder=0></iframe>
 
 The p-value we calculated from this permutation test is 0.0. If we use a significance level of 5%, p-value of 0.0 is less than 0.05. We reject the null hypothesis that the distribution of the 'calories' when 'rating' is missing is the same as the distribution of the 'minutes' when 'rating' is not missing. Based on this result, we can conclude that the missingness of rating is MAR because the rating is dependent on the calories.
 
@@ -170,7 +170,7 @@ Alternative Hypothesis: Recipes with higher number of ingredients have higher le
 Test statistics: Since number of ingredients is numerical data, I will use difference in means as the test statistics (mean number of ingredients of low protein recipe minus mean number of ingredients of high protein recipe)
 Significance level: 5%
 
-In this part, I define recipes with high protein as recipes with 'protein (PDV)' greater than 33 (which is the mean of the protein (PDV) column).
+I define recipes with high protein as recipes with 'protein (PDV)' greater than 33 (which is the mean of the protein (PDV) column).
 
 Here is a plot of the empirical Distribution of the mean differences:
 
