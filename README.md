@@ -182,14 +182,74 @@ The p-value of this permutation test is 0.0. Since p-value 0.0 is less than the 
 
 ## Framing a Prediction Problem
 
+Note: Make sure to justify what information you would know at the “time of prediction” and to only train your model using those features.
+
+After gaining some understanding on protein in recipe, I will move on to learning about ratings in recipe. Specifically, I will be performing a prediction task on `rating`.
+
+My prediction problem is predicting ratings of recipe, and it will be a multiclass classification (since there are five ratings 1, 2, 3, 4, 5) using the random forest classifier.
+
+The response variable would be `rating`.he reason why I am curious in predicting rating is because I want to see if I can use some of the information I learned from previous parts to predict the popularity of recipe.
+
+The evaluation metrics I am using if F1-score (class='weighted') because as previously mentioned, `rating` has imbalanced class distribution, so I want to account for potential label imbalanced in predicted outputs.
+
+Most features in the dataset are features that we would know at the "time of prediction". Some important features that we will pay attention to include: `n_steps`, `protein (PDV)`, `tags`, `name`, `submitted`.
+
 ---
 
 ## Baseline Model
+
+> Modeling Algorithm and Features
+
+To build my model, I am using the Random Forest Classifier from the sklearn library. I first performed train_test_split on my dataset to split it into X_train, X_test, y_train, and y_test.
+
+The two features I am using in my pipeline are `n_steps` and `protein (PDV)`. The description and the encodings I performed on the two features are detailed as follows:
+
+1. `n_steps`: It is a quantitative feature, and I did not perform any additional encodings.
+2. `protein (PDV)`: This is a quantitative feature. However, I used the `Binarizer` transformer with a threshold of 33 on this feature to map each protein (PDV) to 1 or 0, depending on whether the value is greater than 33, or less than or equal to 33. As previously mentioned, I define recipes with high protein as recipes with 'protein (PDV)' greater than 33. This encoding is to categorize `protein (PDV)` into high protein and low protein.
+
+> Model's Performance
+
+The test F1-score of this baseline model is around 0.416. There is definitely room for improvement for this model. This is not only because the F1-score on the unseen test set is only around 0.416 right now, but also because it looks like I don't have enough features that make good predictions of ratings yet. To improve, I want to perform GridSearch to find the optimal hyperparameters and to include more features to see if I can increase the prediciton performance.
 
 ---
 
 ## Final Model
 
+> Modeling Algorithm and Features
+
+I am also using Random Forest Classifier as my final model. In my final model, the new features I added are detailed as follows:
+
+1. `tags`: I extracted information whether `tags` includes whether 'vegetarian' or not, then encoded the resulted boolean column using OneHotEncoder(). I believe this could be good for prediction because I assume many vegetarians will look for recipes with a 'vegetarian' tag specifically. Since 'vegetarian' tag has its unique target audience, I believe it will be a good feature to add to predict rating.
+2. `name`: I extracted information whether `name` has some common types of meat such as 'chicken', 'pork', and 'beef', then encoded the resulted boolean column using OneHotEncoder(). I believe this column will be a good feature to add because these are recipes with high protein keywords in their name could have effect on rating since 'name' is usually what users first notice.
+3. `n_steps`: `n_steps` was also used in baseline model. In the final model, I transformed it with the StandardScaler() transformer. I think it could be a good idea to standardize the column to narrow down the range of the values, since the original data of `n_steps` cover a wide range of values.
+4. `submitted`: I one hot encoded `submitted`. I believe this can be a good feature because I think recipe submission date can potentially group together recipes with certain characteristics, which could help predicting ratings. Moreover, it is possible that recipes with closer dates are discovered by more people.
+
+> Grid Search
+
+To find the optimal hyperparameters for the final model, I also performed GridSearchCV. I decided to use GridSearchCV to tune the hyperparameters, as it is most straightforward and performs cross validation during the searching process. The hyperparameters I plan to tune are max_depth, min_samples_split, and n_estimators.
+
+1. **max_depth**: I chose max_depth because I believe controlling the depth of trees could prevent the model from being too complex and overfitting to the training data.
+2. **min_samples_split**: I chose min_samples_split because increasing its value can also prevent overfitting and capturing too many distinctions in the training data.
+3. **n_estimators**: I chose n_estimators, which represents the number of trees in the forest, because I want to know the optimal number of trees that contribute to a more robust model.
+
+The hyperparameters that ended up working the best are the combination of max_depth=10, min_samples_split=5, and n_estimators=15.
+
+> Model's Performance
+
+The test F1-score of this baseline model is around 0.603. The improvement of this final model over the baseline model's performance can be seen from the F1-score on unseen test set, which improves from around 41.6% with baseline model to 60.3%, by 18.7%%. The difference between the F1-score on training set (0.610) and test set is also not big, which suggests that the final model is not overfitting the train set and predicting poorly on the test set.
+
 ---
 
 ## Fairness Analysis
+
+To understand whether the model is fair or not, we want to conduct a fairness analysis of the final model to answer the question: "Does my model perform worse for high protein recipes than it does for low protein recipes?"
+
+I will use a permutation test to compare our evaluation metrics F1-score (weighted) across the two groups, high protein recipes (with protein PDV greater than 33) and low protein recipes (with protein PDV less than or equal to 33). The null and alternative hypotheses of the test are as follows:
+Null Hypothesis: Our model is fair. Its weighted f1 score for high protein and low protein are roughly the same, and any differences are due to random chance.
+Alternative Hypothesis: Our model is unfair. Its weighted f1 score for high protein is lower than its weighted f1 score for low protein.
+
+For test statsitics, I am using difference in F1-score (low protein minus high protein). Our signficance level is 5%.
+
+<iframe src="assets/fairness.html" width=800 height=600 frameborder=0></iframe>
+
+The p-value of this permutation test is 0.0. Since the p-value is 0.0, less than our significance level 5%, we reject the null hypothesis. It seems like the difference in weighted f1 score across the two groups is significant.
