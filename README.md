@@ -88,7 +88,8 @@ After cleaning the data, the result dataframe look likes the following (our resu
 ### Univariate Analysis
 
 > Distribution of Ratings
-> Here is a bar chart that shows the distribution of the count of each rating.
+
+Here is a bar chart that shows the distribution of the count of each rating.
 
 <iframe
   src="assets/rating_univariate.html"
@@ -96,13 +97,13 @@ After cleaning the data, the result dataframe look likes the following (our resu
   height="600"
   frameborder="0"
 ></iframe>
-
 I noticed that it has a very imbalanced situation, where most of data are of rating 5. This observation suggests that most users tend to give a higher ratings to recipes, and that if I am performing any analysis or prediction on ratings, I should keep in mind this imbalanced situation and make adjustment accordingly.
 
 ### Bivariate Analysis
 
 > Protein (PDV) vs. Number of Steps in Recipe
-> Here is a scatter plot that shows the relationship between `protein (PDV)` and `n_steps`.
+
+Here is a scatter plot that shows the relationship between `protein (PDV)` and `n_steps`.
 
 <iframe
   src="assets/protein_vs_nstep.html"
@@ -110,7 +111,6 @@ I noticed that it has a very imbalanced situation, where most of data are of rat
   height="600"
   frameborder="0"
 ></iframe>
-
 This graph shows that there are more data points clustered around lower n_steps, and that data points with higher protein (PDV) tend to have lower n_steps. his plot suggests that most recipes have lower number of steps, and protein (PDV) values don't seem to have an obvious correlation with the number of steps in recipe.
 
 ### Interesting Aggregates
@@ -133,7 +133,6 @@ Here is a pivot table of n_ingredients with max, mean, median, and min protein (
   height="600"
   frameborder="0"
 ></iframe>
-
 When I looked specifically at mean protein (PDV) and n_ingredients, I noticed that mean protein (PDV) has an positive increasing trend as n_ingredients value increases, reaches local maximum when n_ingredients is around 30, then starts decreasing. This can be interpreted as when number of ingredients is less than 30, higher number of ingredients tend to correspond to higher protein (PDV), but the number of ingredients doesn't seem to have as much positive correlation with protein (PDV) values after 30.
 
 ---
@@ -162,7 +161,6 @@ Here is the empirical distribution of the test statistic used in one of your per
   height="600"
   frameborder="0"
 ></iframe>
-
 The p-value we calculated from this permutation test is 0.109. If we use a significance level of 5%, p-value of 0.109 is greater than 0.05. We fail to reject the null hypothesis that the distribution of the 'minutes' when 'rating' is missing is the same as the distribution of the 'minutes' when 'rating' is not missing. Based on this result, we can conclude that the missingness of rating is MCAR.
 
 2. Calories vs. Rating (MAR)
@@ -179,7 +177,6 @@ Here is the empirical distribution of the test statistic used in one of your per
   height="600"
   frameborder="0"
 ></iframe>
-
 The p-value we calculated from this permutation test is 0.0. If we use a significance level of 5%, p-value of 0.0 is less than 0.05. We reject the null hypothesis that the distribution of the 'calories' when 'rating' is missing is the same as the distribution of the 'minutes' when 'rating' is not missing. Based on this result, we can conclude that the missingness of rating is MAR because the rating is dependent on the calories.
 
 ---
@@ -203,7 +200,6 @@ Here is a plot of the empirical Distribution of the mean differences:
   height="600"
   frameborder="0"
 ></iframe>
-
 The p-value of this permutation test is 0.0. Since p-value 0.0 is less than the significance level 5%, we reject the null hypothesis. This result could be reasonable because the more ingredients there are in a recipe, there might be more ingredients containing protein, thus increasing the protein PDV value.
 
 ---
