@@ -142,13 +142,69 @@ When I looked specifically at mean protein (PDV) and n_ingredients, I noticed th
 
 ### NMAR Analysis
 
-One of the column in the dataset with missing values that is likely `review` column. The missingness of the review can possibly due to users thinking that the recipe does not have anything special to write about. People tend to have more opinions about a recipe when it's bad or good, but if the recipe happens to be an average recipe, then people usually have less to comment about. This reason can explain why the missingness of `review` column is NMAR. If we generate another column that contains information of people's evaluation of the recipe (such as from a scale 0 to 5, with 5 being satisfied and 0 being unsatisfied), then the missingness can become MAR.
+One column in the dataset with missing values that is likely `review` column. The missingness of the review can possibly due to users thinking that the recipe does not have anything special to write about. People tend to have more opinions about a recipe when it's bad or good, but if the recipe happens to be an average recipe, then people usually have less to comment about. This reason can explain why the missingness of `review` column is NMAR. If we generate another column that contains information of people's evaluation of the recipe (such as from a scale 0 to 5, with 5 being satisfied and 0 being unsatisfied), then the missingness can become MAR.
 
 ### Missingness Dependency
+
+in this part, we will focus on the missingness of `rating`. We will test the dependency of the missingness of `rating` on `minutes` and `calories`.
+
+1. Minutes vs. Rating (MCAR)
+   Null Hypothesis: The distribution of the `minutes` when `rating` is missing is the same as the distribution of the `minutes` when `rating` is not missing.
+   Alternative Hypothesis: The distribution of the `minutes` when `rating` is missing is **not** the same as the distribution of the `minutes` when `rating` is not missing.
+
+I created a new column indicating the missingness status of `rating` and shuffled this column 1000 times for the permutation test. The test statistics I used is absolute difference in mean of minutes when rating is missing vs. not missing.
+
+Here is the empirical distribution of the test statistic used in one of your permutation tests, along with the observed statistic:
+
+<iframe
+  src="assets/missing_1.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The p-value we calculated from this permutation test is 0.109. If we use a significance level of 5%, p-value of 0.109 is greater than 0.05. We fail to reject the null hypothesis that the distribution of the 'minutes' when 'rating' is missing is the same as the distribution of the 'minutes' when 'rating' is not missing. Based on this result, we can conclude that the missingness of rating is MCAR.
+
+2. Calories vs. Rating (MAR)
+   Null Hypothesis: The distribution of the `calories` when `rating` is missing is the same as the distribution of the `calories` when `rating` is not missing.
+   Alternative Hypothesis: The distribution of the `calories` when `rating` is missing is **not** the same as the distribution of the `calories` when `rating` is not missing.
+
+I created a new column indicating the missingness status of `rating` and shuffled this column 1000 times for the permutation test. The test statistics I used is absolute difference in mean of minutes when rating is missing vs. not missing.
+
+Here is the empirical distribution of the test statistic used in one of your permutation tests, along with the observed statistic:
+
+<iframe
+  src="assets/missing_2.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The p-value we calculated from this permutation test is 0.0. If we use a significance level of 5%, p-value of 0.0 is less than 0.05. We reject the null hypothesis that the distribution of the 'calories' when 'rating' is missing is the same as the distribution of the 'minutes' when 'rating' is not missing. Based on this result, we can conclude that the missingness of rating is MAR because the rating is dependent on the calories.
 
 ---
 
 ## Hypothesis Testing
+
+As seen in exploratory data analysis section, there is an interesting increasing trend between number of ingredients and protein (PDV) value. To understand characteristics of recipes with high protein and low protein better, we will conduct a permutation test to investgate whether there is a relationship between number of ingredients and protein (PDV) value.
+
+Null Hypothesis: The number of ingredients has no effect on the amount of protein in a recipe.
+Alternative Hypothesis: Recipes with higher number of ingredients have higher level of protein.
+Test statistics: Since number of ingredients is numerical data, I will use difference in means as the test statistics (mean number of ingredients of low protein recipe minus mean number of ingredients of high protein recipe)
+Significance level: 5%
+
+In this part, I define recipes with high protein as recipes with 'protein (PDV)' greater than 33 (which is the mean of the protein (PDV) column).
+
+Here is a plot of the empirical Distribution of the mean differences:
+
+<iframe
+  src="assets/hyp_test.html"
+  width="800"
+  height="600"
+  frameborder="0"
+></iframe>
+
+The p-value of this permutation test is 0.0. Since p-value 0.0 is less than the significance level 5%, we reject the null hypothesis. This result could be reasonable because the more ingredients there are in a recipe, there might be more ingredients containing protein, thus increasing the protein PDV value.
 
 ---
 
