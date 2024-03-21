@@ -248,6 +248,6 @@ Alternative Hypothesis: Our model is unfair. Its weighted f1 score for high prot
 
 For test statsitics, I am using difference in F1-score (low protein minus high protein). Our signficance level is 5%.
 
-<iframe src="assets/fairness.html" width=800 height=600 frameborder=0 display=block></iframe>
+<iframe src="assets/fairness.html" width=800 height=600 frameborder=0></iframe>
 
 The p-value of this permutation test is 0.0. Since the p-value is 0.0, less than our significance level 5%, we reject the null hypothesis. It seems like the difference in weighted f1 score across the two groups is significant.
